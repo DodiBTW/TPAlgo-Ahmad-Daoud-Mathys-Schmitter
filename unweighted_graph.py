@@ -1,4 +1,5 @@
 from collections import deque, defaultdict
+import shutil
 
 class UnweightedGraph:
     def __init__(self, graph=None):
@@ -35,6 +36,7 @@ class UnweightedGraph:
         return layers, level
 
     def ascii_graph(self, root="A"):
+
         layers, levels = self.build_layers(root)
         max_nodes = max(len(nodes) for nodes in layers.values())
         node_width = 1  # Each node is a single character
@@ -49,7 +51,6 @@ class UnweightedGraph:
         for lvl, nodes in layers.items():
             y = lvl * 2
             total_nodes = len(nodes)
-            # Calculate the starting x to center the nodes
             layer_width = (total_nodes - 1) * (node_width + gap_size)
             start_x = (max_width - layer_width - node_width) // 2
             for i, node in enumerate(nodes):
@@ -69,8 +70,16 @@ class UnweightedGraph:
                 x2, y2 = positions[neighbor]
                 self.draw_line(canvas, x1, y1, x2, y2)
 
+        # Center the output in the console
+        try:
+            term_width = shutil.get_terminal_size((80, 20)).columns
+        except Exception:
+            term_width = 80  # fallback
+
         for row in canvas:
-            print("".join(row).rstrip())
+            line = "".join(row).rstrip()
+            padding = max((term_width - len(line)) // 2, 0)
+            print(" " * padding + line)
 
     @staticmethod
     def draw_line(canvas, x1, y1, x2, y2):
