@@ -5,6 +5,7 @@ from Exercice1.dfs import DFS
 from Exercice1.bfs import BFS
 from Exercice2.dijkstra import Dijkstra
 from menu import menu, parse_choice
+import copy
 
 unweighted_graph_to_use = {
     "A": ["B","C"],
@@ -23,7 +24,6 @@ weighted_graph_to_use = {
     "E": {"C": 3},
     "F": {"D": 6}
 }
-
 
 
 # SANS CYCLE NEGATIF 
@@ -55,15 +55,34 @@ negative_weighted_graph_with_negative_cycle = {
     "F": {"C": 5, "E": 6}
 }
 
+network_graph = {
+    "A": {"B": 16, "C": 13},
+    "B": {"A": 16, "D": 12, "E": 10},
+    "C": {"A": 13, "F": 9},
+    "D": {"B": 12, "E": 14},
+    "E": {"B": 10, "D": 14, "F": 7},
+    "F": {"C": 9, "E": 7}
+}
+
+random_array = [10, 7, 8, 9, 1, 5]
+
 if __name__ == "__main__":
     graph_manager = UnweightedGraph(unweighted_graph_to_use)
     format_print = FmtPrint()
-    test_graphs = TestGraphs(format_print, unweighted_graph_to_use, weighted_graph_to_use, negative_weighted_graph_to_use, negative_weighted_graph_with_negative_cycle)
     format_print.clear_console()
     format_print.log("Bienvenue au testeur d'algorithmes de graphes", open=True)
     format_print.log("Graphe non pondéré actuel :", close=True)
     graph_manager.ascii_graph()
     while True:
+        test_graphs = TestGraphs(
+            format_print,
+            copy.deepcopy(unweighted_graph_to_use),
+            copy.deepcopy(weighted_graph_to_use),
+            copy.deepcopy(negative_weighted_graph_to_use),
+            copy.deepcopy(negative_weighted_graph_with_negative_cycle),
+            copy.deepcopy(network_graph),
+            copy.deepcopy(random_array)
+        )
         choice = menu(format_print)
         choice = choice.strip()
         format_print.clear_console()

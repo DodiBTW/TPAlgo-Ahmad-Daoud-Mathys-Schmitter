@@ -9,6 +9,7 @@ def menu(format_print: FmtPrint):
     format_print.log("5. Tester l'algorithme Bellman-Ford avec le graphe à cycle négatif", separate=True)
     format_print.log("6. Tester l'algorithme Ford Fulkerson", separate=True)
     format_print.log("7. Tester l'algorithme Edmonds Karp", separate=True)
+    format_print.log("8. Tester l'algorithme de tri rapide randomisé", separate=True)
     format_print.log("0. Quitter", close=True)
     choice = input("Choisissez une option : ")
 
@@ -29,5 +30,10 @@ def parse_choice(choice: str, format_print: FmtPrint, test_graphs: TestGraphs):
         test_graphs.test_ford_fulkerson()
     elif choice == "7":
         test_graphs.test_edmonds_karp()
+    elif choice == "8":
+        test_graphs.test_random_quick_sort()
+    elif choice == "9":
+        test_graphs.compare_quick_sort()
     else:
         format_print.log("Choix invalide, veuillez réessayer.", open=True, close=True)
+        return
