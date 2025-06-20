@@ -9,10 +9,10 @@ from Exercice4.ford_fulkerson import FordFulkerson
 from Exercice4.edmonds_karp import EdmondsKarp
 from Exercice5.random_quick_sort import RandomQuickSort
 from Exercice5.quick_sort import QuickSort
-
+from Exercice6.avl import AVL
 
 class TestGraphs:
-    def __init__ (self, format_print: FmtPrint, unweighted_graph_to_use: dict, weighted_graph_to_use: dict, negative_weighted_graph_to_use: dict, negative_weighted_graph_with_negative_cycle: dict, network_graph: dict, random_array = []):
+    def __init__ (self, format_print: FmtPrint, unweighted_graph_to_use: dict, weighted_graph_to_use: dict, negative_weighted_graph_to_use: dict, negative_weighted_graph_with_negative_cycle: dict, network_graph: dict, random_array = [], numbers_for_avl = []):
         self.unweighted_graph_to_use = unweighted_graph_to_use
         self.weighted_graph_to_use = weighted_graph_to_use
         self.negative_weighted_graph_to_use = negative_weighted_graph_to_use
@@ -20,8 +20,7 @@ class TestGraphs:
         self.format_print = format_print
         self.network_graph = network_graph
         self.random_array = random_array
-
-
+        self.numbers_for_avl = numbers_for_avl
 
     def test_bfs(self):
         bfs_manager = BFS(self.unweighted_graph_to_use)
@@ -133,11 +132,59 @@ class TestGraphs:
         quick_sort_manager = QuickSort(random_array.copy())
         sorted_array = quick_sort_manager.sort()
         end_time_quick_sort = time.perf_counter()
-        start_time_random_quick_sort = time.perf_counter()
-        quick_sort_manager_random = RandomQuickSort(random_array.copy())
-        sorted_array_random = quick_sort_manager_random.sort()
-        end_time_random_quick_sort = time.perf_counter()
         self.format_print.clear_console()
-        self.format_print.log("Comparaison des algorithmes de tri rapide pour un tableau de 1000000 elements :", open=True, separate=True)
-        self.format_print.log(f"Tri rapide standard - temps : {end_time_quick_sort - start_time_quick_sort:.6f} secondes", separate=True)
-        self.format_print.log(f"Tri rapide randomisé - temps : {end_time_random_quick_sort - start_time_random_quick_sort:.6f} secondes", close=True)
+        self.format_print.log("Temps de tri avec QuickSort :", open=True)
+        self.format_print.log(f"{end_time_quick_sort - start_time_quick_sort:.6f} secondes", close=True)
+
+
+    def test_avl_tree(self):
+        avl_tree_manager = AVL()
+        for number in self.numbers_for_avl:
+            avl_tree_manager.insert(number)
+        self.format_print.clear_console()
+        self.format_print.log("Arbre AVL après insertion des nombres :", open=True)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+
+    def test_avl_tree_rebalancing(self):
+        avl_tree_manager = AVL()
+        # Cas 1: Rotation simple à droite (insertion)
+        self.format_print.log("Test rotation simple à droite (insertion):", open=True)
+        for n in [30, 20, 10]:
+            avl_tree_manager.insert(n)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        # Cas 2: Rotation simple à gauche (insertion)
+        avl_tree_manager = AVL()
+        self.format_print.log("Test rotation simple à gauche (insertion):", open=True)
+        for n in [10, 20, 30]:
+            avl_tree_manager.insert(n)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        # Cas 3: Double rotation gauche-droite (insertion)
+        avl_tree_manager = AVL()
+        self.format_print.log("Test double rotation gauche-droite (insertion):", open=True)
+        for n in [30, 10, 20]:
+            avl_tree_manager.insert(n)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        # Cas 4: Double rotation droite-gauche (insertion)
+        avl_tree_manager = AVL()
+        self.format_print.log("Test double rotation droite-gauche (insertion):", open=True)
+        for n in [10, 30, 20]:
+            avl_tree_manager.insert(n)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        # Cas 5: Rotation après suppression
+        avl_tree_manager = AVL()
+        for n in [20, 10, 30, 25, 40, 22]:
+            avl_tree_manager.insert(n)
+        self.format_print.log("Arbre avant suppression (pour test de rééquilibrage):", open=True)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        avl_tree_manager.delete(40)
+        self.format_print.log("Arbre après suppression de 40 (rééquilibrage attendu):", open=True)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        # Cas 6: Suppression provoquant une double rotation
+        avl_tree_manager = AVL()
+        for n in [50, 30, 70, 20, 40, 60, 80, 65]:
+            avl_tree_manager.insert(n)
+        self.format_print.log("Arbre avant suppression (double rotation attendue):", open=True)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)
+        avl_tree_manager.delete(80)
+        self.format_print.log("Arbre après suppression de 80 (double rotation attendue):", open=True)
+        self.format_print.log(avl_tree_manager.pretty_print(), close=True)

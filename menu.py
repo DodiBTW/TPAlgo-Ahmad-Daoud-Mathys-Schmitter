@@ -10,6 +10,9 @@ def menu(format_print: FmtPrint):
     format_print.log("6. Tester l'algorithme Ford Fulkerson", separate=True)
     format_print.log("7. Tester l'algorithme Edmonds Karp", separate=True)
     format_print.log("8. Tester l'algorithme de tri rapide randomisé", separate=True)
+    format_print.log("9. Comparer le tri rapide avec et sans randomisation", separate=True)
+    format_print.log("10. Tester l'arbre AVL", separate=True)
+    format_print.log("11. Tester l'arbre AVL avec rééquilibrage", separate=True)   
     format_print.log("0. Quitter", close=True)
     choice = input("Choisissez une option : ")
 
@@ -34,6 +37,10 @@ def parse_choice(choice: str, format_print: FmtPrint, test_graphs: TestGraphs):
         test_graphs.test_random_quick_sort()
     elif choice == "9":
         test_graphs.compare_quick_sort()
+    elif choice == "10":
+        test_graphs.test_avl_tree()
+    elif choice == "11":
+        test_graphs.test_avl_tree_rebalancing()
     else:
         format_print.log("Choix invalide, veuillez réessayer.", open=True, close=True)
         return

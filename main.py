@@ -66,6 +66,8 @@ network_graph = {
 
 random_array = [10, 7, 8, 9, 1, 5]
 
+numbers_for_avl = [10,20,30,40,50,25]
+
 if __name__ == "__main__":
     graph_manager = UnweightedGraph(unweighted_graph_to_use)
     format_print = FmtPrint()
@@ -81,7 +83,8 @@ if __name__ == "__main__":
             copy.deepcopy(negative_weighted_graph_to_use),
             copy.deepcopy(negative_weighted_graph_with_negative_cycle),
             copy.deepcopy(network_graph),
-            copy.deepcopy(random_array)
+            copy.deepcopy(random_array),
+            copy.deepcopy(numbers_for_avl)
         )
         choice = menu(format_print)
         choice = choice.strip()
