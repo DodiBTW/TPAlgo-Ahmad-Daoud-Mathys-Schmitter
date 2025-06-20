@@ -39,8 +39,8 @@ class UnweightedGraph:
 
         layers, levels = self.build_layers(root)
         max_nodes = max(len(nodes) for nodes in layers.values())
-        node_width = 1  # Each node is a single character
-        gap_size = 3    # Minimum gap between nodes
+        node_width = 1
+        gap_size = 3  
 
         max_width = max_nodes * (node_width + gap_size)
         height = (max(layers.keys()) + 1) * 2
@@ -69,12 +69,10 @@ class UnweightedGraph:
                 drawn.add(edge_key)
                 x2, y2 = positions[neighbor]
                 self.draw_line(canvas, x1, y1, x2, y2)
-
-        # Center the output in the console
         try:
             term_width = shutil.get_terminal_size((80, 20)).columns
         except Exception:
-            term_width = 80  # fallback
+            term_width = 80 
 
         for row in canvas:
             line = "".join(row).rstrip()
@@ -99,6 +97,3 @@ class UnweightedGraph:
                 else:
                     canvas[y][x] = "/"
 
-if __name__ == "__main__":
-    g = Graph()
-    g.ascii_graph()
